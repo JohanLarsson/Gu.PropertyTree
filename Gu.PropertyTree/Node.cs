@@ -1,5 +1,6 @@
 ﻿namespace Gu.PropertyTree
 {
+    using System;
     using System.Collections.Generic;
 
     public static class Node
@@ -16,11 +17,25 @@
             {
                 yield break;
             }
+
             var properties = value.GetType()
-                                                .GetProperties();
+                                  .GetProperties();
             foreach (var property in properties)
             {
-                yield return new ReadOnlyNode(value, property);
+                if (property.CanWrite && property.CanRead)
+                {
+                    yield return new EditableNode(value, property);
+                }
+
+                else if(property.CanRead)
+                {
+                    yield return new ReadOnlyNode(value, property);
+                }
+
+                else
+                {
+                    throw new NotSupportedException("Does not support write only properties");
+                }
             }
         }
     }
