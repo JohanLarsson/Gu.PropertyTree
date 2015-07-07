@@ -5,6 +5,9 @@ namespace Gu.PropertyTree
     using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
+
+    using Gu.PropertyTree.Annotations;
 
     public abstract class NodeBase : INode
     {
@@ -16,29 +19,18 @@ namespace Gu.PropertyTree
             var inpc = parent as INotifyPropertyChanged;
             if (inpc != null)
             {
-                inpc.PropertyChanged += InpcOnPropertyChanged;
+                inpc.PropertyChanged += OnParentPropertyChanged;
             }
             ParentProperty = parentProperty;
             Nodes = Node.CreateSubNodes(Value).ToArray();
         }
 
-        private void InpcOnPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != ParentProperty.Name)
-            {
-                return;
-            }
-            foreach (var node in Nodes)
-            {
-                node.Dispose();
-            }
-            Nodes = Node.CreateSubNodes(Value).ToArray();
-        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public object Parent { get; private set; }
-        
+
         public PropertyInfo ParentProperty { get; private set; }
-        
+
         public object Value
         {
             get
@@ -63,7 +55,7 @@ namespace Gu.PropertyTree
             var inpc = Parent as INotifyPropertyChanged;
             if (inpc != null)
             {
-                inpc.PropertyChanged += InpcOnPropertyChanged;
+                inpc.PropertyChanged += OnParentPropertyChanged;
             }
             foreach (var node in Nodes)
             {
@@ -75,10 +67,33 @@ namespace Gu.PropertyTree
         {
             if (_disposed)
             {
-                throw new ObjectDisposedException(
-                    GetType()
-                        .FullName);
+                throw new ObjectDisposedException(GetType().FullName);
             }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void OnParentPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != ParentProperty.Name)
+            {
+                return;
+            }
+            foreach (var node in Nodes)
+            {
+                node.Dispose();
+            }
+            Nodes = Node.CreateSubNodes(Value).ToArray();
+            OnPropertyChanged("Value");
+            OnPropertyChanged("Nodes");
         }
     }
 }

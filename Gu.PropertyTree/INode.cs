@@ -2,9 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Reflection;
 
-    public interface INode : IDisposable
+    public interface INode : IDisposable, INotifyPropertyChanged
     {
         object Parent { get; }
 
