@@ -18,6 +18,7 @@ namespace Gu.PropertyTree
         private readonly ReadOnlyObservableCollection<IPropertyNode> _nodes;
 
         private bool _disposed;
+        private bool _hasEditableSubNodes;
 
         protected PropertyNode(object parent, PropertyInfo parentProperty)
         {
@@ -31,6 +32,8 @@ namespace Gu.PropertyTree
             var propertyNodes = Node.CreatePropertyNodes(Value).ToArray();
             _innerNodes = new ObservableCollection<IPropertyNode>(propertyNodes);
             _nodes = new ReadOnlyObservableCollection<IPropertyNode>(_innerNodes);
+            HasEditableSubNodes = Nodes.OfType<EditableNode>()
+                                       .Any();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -52,6 +55,20 @@ namespace Gu.PropertyTree
             get
             {
                 return _nodes;
+            }
+        }
+
+        public bool HasEditableSubNodes
+        {
+            get { return _hasEditableSubNodes; }
+            private set
+            {
+                if (value == _hasEditableSubNodes)
+                {
+                    return;
+                }
+                _hasEditableSubNodes = value;
+                OnPropertyChanged();
             }
         }
 

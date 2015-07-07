@@ -29,6 +29,7 @@
 
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="IsExpanded" Value="{Binding HasEditableSubNodes}" />
                 </Style>
 
                 <demo:ValueTemplateSelector x:Key="ValueTemplateSelector">
