@@ -18,13 +18,13 @@
         [Test]
         public void CreateWithValues()
         {
-            var instance = new Dummy { Value = 2 };
+            var instance = new Dummy { Value = 2, Name = "Max" };
             var node = Node.Create(instance);
             var valueNode = node.Nodes.Single(x => x.ParentProperty.Name == "Value");
             Assert.AreEqual(2, valueNode.Value);
 
             var nameNode = node.Nodes.Single(x => x.ParentProperty.Name == "Name");
-            Assert.AreEqual(null, nameNode.Value);
+            Assert.AreEqual("Max", nameNode.Value);
 
             var nextNode = node.Nodes.Single(x => x.ParentProperty.Name == "Next");
             Assert.AreEqual(null, nextNode.Value);
@@ -33,11 +33,11 @@
         [Test]
         public void CreateNested()
         {
-            var instance = new Dummy {Next =  new Dummy()};
+            var instance = new Dummy { Next = new Dummy() };
             var node = Node.Create(instance);
             Assert.AreSame(instance, node.Value);
             Assert.AreEqual(3, node.Nodes.Count);
-            
+
             var nextNode = node.Nodes.Single(x => x.ParentProperty.Name == "Next");
             Assert.AreSame(instance.Next, nextNode.Value);
             Assert.AreEqual(3, nextNode.Nodes.Count);
