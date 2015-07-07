@@ -1,12 +1,25 @@
 ﻿namespace Gu.PropertyTree
 {
-    using System;
+    using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
-    public class PrimitiveTypes
+    public class PrimitiveTypes : IReadOnlyCollection<PrimitiveType>
     {
+        private readonly List<PrimitiveType> _primitiveTypes = new List<PrimitiveType>();
+
+        public int Count
+        {
+            get { return _primitiveTypes.Count; }
+        }
+
+        public IEnumerator<PrimitiveType> GetEnumerator()
+        {
+            return _primitiveTypes.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

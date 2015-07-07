@@ -38,6 +38,7 @@
     <Compile Include="INode.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeBase.cs" />
+    <Compile Include="PrimitiveType.cs" />
     <Compile Include="PrimitiveTypes.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
