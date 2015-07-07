@@ -55,7 +55,7 @@ namespace Gu.PropertyTree
             var inpc = Parent as INotifyPropertyChanged;
             if (inpc != null)
             {
-                inpc.PropertyChanged += OnParentPropertyChanged;
+                inpc.PropertyChanged -= OnParentPropertyChanged;
             }
             foreach (var node in Nodes)
             {
