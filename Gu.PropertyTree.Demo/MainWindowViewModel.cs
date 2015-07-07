@@ -1,47 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Gu.PropertyTree.Demo
+﻿namespace Gu.PropertyTree.Demo
 {
     using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-
-    using Gu.PropertyTree.Annotations;
 
     public class MainWindowViewModel
     {
+        private readonly ObservableCollection<RootNode> _root = new ObservableCollection<RootNode>();
+
         public MainWindowViewModel()
         {
-            var instance = new Dummy() {  Value = 24 };
+            var instance = new Dummy { Name = "Max", Value = 24 };
             var rootNode = Node.Create(instance);
-           
-            
-            NodeObjectList = new ObservableCollection<RootNode>();
-            NodeObjectList.Add(rootNode);
+            Root.Add(rootNode);
         }
 
-        public ObservableCollection<RootNode> NodeObjectList { get; set; }
-    }
-
-    public class Dummy: INotifyPropertyChanged
-    {
-        public string Name { get; set; }
-        public int Value { get; set; }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public ObservableCollection<RootNode> Root
         {
-            var handler = PropertyChanged;
-            if (handler != null)
+            get
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                return _root;
             }
         }
     }

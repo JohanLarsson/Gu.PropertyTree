@@ -4,26 +4,65 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:demo="clr-namespace:Gu.PropertyTree.Demo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:propertyTree="clr-namespace:Gu.PropertyTree;assembly=Gu.PropertyTree"
+        xmlns:tree="clr-namespace:Gu.PropertyTree;assembly=Gu.PropertyTree"
         Title="MainWindow"
         Width="525"
         Height="350"
         d:DataContext="{d:DesignInstance demo:MainWindowViewModel}"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        >
     <Grid>
-        <TreeView BorderThickness="0" ItemsSource="{Binding NodeObjectList}">
+        <TreeView BorderThickness="0"
+                  ItemsSource="{Binding Root}"
+                  >
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type propertyTree:RootNode}" ItemsSource="{Binding Path=Nodes}">
+                <HierarchicalDataTemplate DataType="{x:Type tree:RootNode}"
+                                          ItemsSource="{Binding Nodes}"
+                                          >
                     <TreeViewItem>
                         <TreeViewItem.Header>
-                            <StackPanel Margin="-10,0,0,0" Orientation="Horizontal">
+                            <StackPanel Margin="-10,0,0,0"
+                                        Orientation="Horizontal"
+                                        >
                                 <TextBlock Text="{Binding Path=Value}" />
+                            </StackPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type tree:EditableNode}"
+                                          ItemsSource="{Binding Nodes}"
+                                          >
+                    <TreeViewItem>
+                        <TreeViewItem.Header>
+                            <StackPanel Margin="-10,0,0,0"
+                                        Orientation="Horizontal"
+                                        >
+                                <TextBlock Text="{Binding ParentProperty.Name}" />
+                                <TextBox Text="{Binding Value}" />
+                            </StackPanel>
+                        </TreeViewItem.Header>
+                    </TreeViewItem>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type tree:ReadOnlyNode}"
+                                          ItemsSource="{Binding Nodes}"
+                                          >
+                    <TreeViewItem>
+                        <TreeViewItem.Header>
+                            <StackPanel Margin="-10,0,0,0"
+                                        Orientation="Horizontal"
+                                        >
+                                <TextBlock Text="{Binding ParentProperty.Name}" />
+                                <TextBox IsReadOnly="True"
+                                         Text="{Binding Value,
+                                                        Mode=OneWay}"
+                                         />
                             </StackPanel>
                         </TreeViewItem.Header>
                     </TreeViewItem>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
-
     </Grid>
 </Window>

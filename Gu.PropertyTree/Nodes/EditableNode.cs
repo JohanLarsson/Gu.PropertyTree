@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Reflection;
 
-    public class EditableNode : NodeBase, INode
+    public class EditableNode : PropertyNode, INode
     {
         public EditableNode(object parent, PropertyInfo parentProperty)
             : base(parent, parentProperty)

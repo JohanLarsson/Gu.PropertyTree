@@ -1,19 +1,25 @@
 namespace Gu.PropertyTree
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.CompilerServices;
 
     using Gu.PropertyTree.Annotations;
 
-    public abstract class NodeBase : INode
+    [DebuggerDisplay("{GetType().Name} Property: {ParentProperty.Name}, Value: {Value}")]
+    public abstract class PropertyNode : IPropertyNode
     {
+        protected static readonly PropertyChangedEventArgs ValueChangedEventArgs = new PropertyChangedEventArgs("Value");
+        private readonly ObservableCollection<IPropertyNode> _innerNodes;
+        private readonly ReadOnlyObservableCollection<IPropertyNode> _nodes;
+
         private bool _disposed;
 
-        protected NodeBase(object parent, PropertyInfo parentProperty)
+        protected PropertyNode(object parent, PropertyInfo parentProperty)
         {
             Parent = parent;
             var inpc = parent as INotifyPropertyChanged;
@@ -22,7 +28,9 @@ namespace Gu.PropertyTree
                 inpc.PropertyChanged += OnParentPropertyChanged;
             }
             ParentProperty = parentProperty;
-            Nodes = Node.CreateSubNodes(Value).ToArray();
+            var propertyNodes = Node.CreatePropertyNodes(Value).ToArray();
+            _innerNodes = new ObservableCollection<IPropertyNode>(propertyNodes);
+            _nodes = new ReadOnlyObservableCollection<IPropertyNode>(_innerNodes);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -39,7 +47,13 @@ namespace Gu.PropertyTree
             }
         }
 
-        public IReadOnlyList<INode> Nodes { get; private set; }
+        public ReadOnlyObservableCollection<IPropertyNode> Nodes
+        {
+            get
+            {
+                return _nodes;
+            }
+        }
 
         /// <summary>
         /// Make the class sealed when using this. 
@@ -61,6 +75,7 @@ namespace Gu.PropertyTree
             {
                 node.Dispose();
             }
+            _innerNodes.Clear();
         }
 
         private void VerifyDisposed()
@@ -81,19 +96,33 @@ namespace Gu.PropertyTree
             }
         }
 
-        private void OnParentPropertyChanged(object sender, PropertyChangedEventArgs e)
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != ParentProperty.Name)
             {
                 return;
             }
+            OnPropertyChanged(ValueChangedEventArgs);
             foreach (var node in Nodes)
             {
                 node.Dispose();
             }
-            Nodes = Node.CreateSubNodes(Value).ToArray();
-            OnPropertyChanged("Value");
-            OnPropertyChanged("Nodes");
+            _innerNodes.Clear();
+
+            var nodes = Node.CreatePropertyNodes(Value).ToArray();
+            foreach (var node in nodes)
+            {
+                _innerNodes.Add(node);
+            }
         }
     }
 }

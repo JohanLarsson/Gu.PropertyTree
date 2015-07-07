@@ -34,16 +34,17 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditableNode.cs" />
-    <Compile Include="INode.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="NodeBase.cs" />
-    <Compile Include="PrimitiveType.cs" />
-    <Compile Include="PrimitiveTypes.cs" />
+    <Compile Include="Nodes\EditableNode.cs" />
+    <Compile Include="Nodes\INode.cs" />
+    <Compile Include="Nodes\IPropertyNode.cs" />
+    <Compile Include="Nodes\Node.cs" />
+    <Compile Include="Nodes\PropertyNode.cs" />
+    <Compile Include="PrimitiveTypes\PrimitiveType.cs" />
+    <Compile Include="PrimitiveTypes\PrimitiveTypes.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadOnlyNode.cs" />
-    <Compile Include="RootNode.cs" />
+    <Compile Include="Nodes\ReadOnlyNode.cs" />
+    <Compile Include="Nodes\RootNode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

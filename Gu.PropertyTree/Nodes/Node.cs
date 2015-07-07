@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public static class Node
     {
@@ -11,7 +12,7 @@
             return node;
         }
 
-        internal static IEnumerable<INode> CreateSubNodes(object value)
+        internal static IEnumerable<IPropertyNode> CreatePropertyNodes(object value)
         {
             if (value == null)
             {
@@ -22,6 +23,12 @@
                                   .GetProperties();
             foreach (var property in properties)
             {
+                if (property.GetIndexParameters()
+                            .Any())
+                {
+                    continue;
+                }
+
                 if (property.CanWrite && property.CanRead)
                 {
                     yield return new EditableNode(value, property);
