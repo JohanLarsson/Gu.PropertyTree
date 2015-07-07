@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.PropertyTree", "Gu.PropertyTree\Gu.PropertyTree.csproj", "{CF36972E-9492-45DA-9EDA-589306F643D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.PropertyTree.Tests", "Gu.PropertyTree.Tests\Gu.PropertyTree.Tests.csproj", "{93B93F38-7E4A-4F17-A57E-2817AF1B5462}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.PropertyTree.Demo", "Gu.PropertyTree.Demo\Gu.PropertyTree.Demo.csproj", "{816A4C11-4869-4D2A-B2CC-4A5F7A1BC8FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{CF36972E-9492-45DA-9EDA-589306F643D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF36972E-9492-45DA-9EDA-589306F643D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF36972E-9492-45DA-9EDA-589306F643D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93B93F38-7E4A-4F17-A57E-2817AF1B5462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93B93F38-7E4A-4F17-A57E-2817AF1B5462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93B93F38-7E4A-4F17-A57E-2817AF1B5462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93B93F38-7E4A-4F17-A57E-2817AF1B5462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{816A4C11-4869-4D2A-B2CC-4A5F7A1BC8FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{816A4C11-4869-4D2A-B2CC-4A5F7A1BC8FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{816A4C11-4869-4D2A-B2CC-4A5F7A1BC8FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{816A4C11-4869-4D2A-B2CC-4A5F7A1BC8FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
