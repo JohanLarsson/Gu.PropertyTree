@@ -3,20 +3,14 @@
     using System.Collections.Generic;
     using System.Reflection;
 
-    public class EditableNode : INode
+    public class EditableNode : NodeBase, INode
     {
-        internal EditableNode(object instance, PropertyInfo property, IReadOnlyList<INode> nodes)
+        public EditableNode(object parent, PropertyInfo parentProperty)
+            : base(parent, parentProperty)
         {
-            Parent = instance;
-            Parent = property;
-            Nodes = nodes;
         }
 
-        public object Parent { get; private set; }
-
-        public PropertyInfo ParentProperty { get; private set; }
-
-        public object Value
+        public new object Value
         {
             get
             {
@@ -27,7 +21,5 @@
                 ParentProperty.SetValue(Parent, value);
             }
         }
-
-        public IReadOnlyList<INode> Nodes { get; private set; }
     }
 }

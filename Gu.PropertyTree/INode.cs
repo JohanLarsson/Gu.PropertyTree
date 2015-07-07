@@ -1,9 +1,10 @@
 ﻿namespace Gu.PropertyTree
 {
+    using System;
     using System.Collections.Generic;
     using System.Reflection;
 
-    public interface INode
+    public interface INode : IDisposable
     {
         object Parent { get; }
 
