@@ -7,8 +7,8 @@
     public interface INode : IDisposable, INotifyPropertyChanged
     {       
         object Value { get; }
-        
-        ReadOnlyObservableCollection<IPropertyNode> Nodes { get; }
+
+        ReadOnlyObservableCollection<INode> Nodes { get; }
 
         bool HasEditableSubNodes { get; }
     }

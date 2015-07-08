@@ -9,12 +9,9 @@
         Width="525"
         Height="350"
         d:DataContext="{d:DesignInstance demo:MainWindowViewModel}"
-        mc:Ignorable="d"
-        >
+        mc:Ignorable="d">
     <Grid>
-        <TreeView BorderThickness="0"
-                  ItemsSource="{Binding Root}"
-                  >
+        <TreeView BorderThickness="0" ItemsSource="{Binding Root}">
             <TreeView.Resources>
                 <Style TargetType="{x:Type TextBox}">
                     <Setter Property="BorderBrush" Value="{x:Null}" />
@@ -49,21 +46,32 @@
                         <DataTemplate DataType="{x:Type tree:EditableNode}">
                             <TextBox BorderBrush="{x:Null}"
                                      IsReadOnly="True"
-                                     Text="{Binding Value}"
-                                     />
+                                     Text="{Binding Value}" />
                         </DataTemplate>
                     </demo:ValueTemplateSelector.StringTemplate>
                 </demo:ValueTemplateSelector>
 
-                <HierarchicalDataTemplate DataType="{x:Type tree:RootNode}"
-                                          ItemsSource="{Binding Nodes}"
-                                          >
+                <HierarchicalDataTemplate DataType="{x:Type tree:RootNode}" ItemsSource="{Binding Nodes}">
                     <TextBlock Text="{Binding Path=Value}" />
                 </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type tree:ItemsNode}" ItemsSource="{Binding Nodes}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Value,
+                                                  Mode=OneWay,
+                                                  StringFormat='{}{0}:'}" />
 
-                <HierarchicalDataTemplate DataType="{x:Type tree:PropertyNode}"
-                                          ItemsSource="{Binding Nodes}"
-                                          >
+                        <ContentPresenter Grid.Column="1"
+                                          Content="{Binding}"
+                                          ContentTemplateSelector="{StaticResource ValueTemplateSelector}" />
+                    </Grid>
+                </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type tree:PropertyNode}" ItemsSource="{Binding Nodes}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -73,13 +81,11 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding ParentProperty.Name,
                                                   Mode=OneWay,
-                                                  StringFormat='{}{0}:'}"
-                                   />
+                                                  StringFormat='{}{0}:'}" />
 
                         <ContentPresenter Grid.Column="1"
                                           Content="{Binding}"
-                                          ContentTemplateSelector="{StaticResource ValueTemplateSelector}"
-                                          />
+                                          ContentTemplateSelector="{StaticResource ValueTemplateSelector}" />
                     </Grid>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

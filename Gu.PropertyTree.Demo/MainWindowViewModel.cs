@@ -1,5 +1,6 @@
 ﻿namespace Gu.PropertyTree.Demo
 {
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
     public class MainWindowViewModel
@@ -8,8 +9,14 @@
 
         public MainWindowViewModel()
         {
-            var instance = new Dummy { Name = "Max", Value = 24 };
-            var rootNode = Node.Create(instance);
+
+            var dummy1 = new Dummy { Name = "Max", Value = 24 };
+            var dummy2 = new Dummy { Name = "Johan", Value = 23 };
+            var dummy3 = new Dummy { Name = "Max", Value = 24 };
+            dummy1.Dummies = new List<Dummy>() { dummy2, dummy3 };
+            var l = new List<Dummy>() { dummy1,dummy2 };
+          
+            var rootNode = Node.Create(l);
             Root.Add(rootNode);
         }
 

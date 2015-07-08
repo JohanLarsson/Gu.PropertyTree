@@ -1,5 +1,6 @@
 ﻿namespace Gu.PropertyTree.Demo
 {
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
@@ -10,6 +11,7 @@
         private string _name;
         private int _value;
         private Dummy _next;
+        private int _value2;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -54,6 +56,7 @@
                 OnPropertyChanged();
             }
         }
+        public IEnumerable<Dummy> Dummies { get; set; }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

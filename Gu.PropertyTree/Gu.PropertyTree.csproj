@@ -37,8 +37,10 @@
     <Compile Include="Nodes\EditableNode.cs" />
     <Compile Include="Nodes\INode.cs" />
     <Compile Include="Nodes\IPropertyNode.cs" />
+    <Compile Include="Nodes\ItemsNode.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\PropertyNode.cs" />
+    <Compile Include="Nodes\RootNodeBase.cs" />
     <Compile Include="PrimitiveTypes\PrimitiveType.cs" />
     <Compile Include="PrimitiveTypes\PrimitiveTypes.cs" />
     <Compile Include="Properties\Annotations.cs" />

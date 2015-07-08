@@ -1,6 +1,7 @@
 ﻿namespace Gu.PropertyTree
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -12,13 +13,17 @@
             return node;
         }
 
-        internal static IEnumerable<IPropertyNode> CreatePropertyNodes(object value)
+        internal static IEnumerable<INode> CreatePropertyNodes(object value)
         {
             if (value == null)
             {
                 yield break;
             }
-
+            var enumerable = value as IEnumerable;
+            if (enumerable != null && (enumerable is string)==false)
+            {
+                yield return new ItemsNode(enumerable);
+            }
             var properties = value.GetType()
                                   .GetProperties();
             foreach (var property in properties)
