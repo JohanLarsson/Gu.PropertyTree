@@ -30,43 +30,69 @@
                 </Style>
 
                 <demo:ValueTemplateSelector x:Key="ValueTemplateSelector">
+                    <demo:ValueTemplateSelector.DefaultTemplate>
+                        <DataTemplate DataType="{x:Type tree:EditableNode}">
+                            <TextBlock Text="{Binding Value}" />
+                        </DataTemplate>
+                    </demo:ValueTemplateSelector.DefaultTemplate>
                     <demo:ValueTemplateSelector.NullTemplate>
                         <DataTemplate DataType="{x:Type tree:ReadOnlyNode}">
                             <TextBlock Text="null" />
                         </DataTemplate>
                     </demo:ValueTemplateSelector.NullTemplate>
-
+                    <demo:ValueTemplateSelector.IntegerTemplate>
+                        <DataTemplate DataType="{x:Type tree:EditableNode}">
+                            <TextBox    Text="{Binding Value, ValidatesOnDataErrors=True}" />
+                        </DataTemplate>
+                    </demo:ValueTemplateSelector.IntegerTemplate>
                     <demo:ValueTemplateSelector.ReadonlyStringTemplate>
                         <DataTemplate DataType="{x:Type tree:ReadOnlyNode}">
-                            <TextBox Text="{Binding Value, Mode=OneWay}" />
+                            <TextBlock Text="{Binding Value, Mode=OneWay}" />
                         </DataTemplate>
                     </demo:ValueTemplateSelector.ReadonlyStringTemplate>
 
                     <demo:ValueTemplateSelector.StringTemplate>
                         <DataTemplate DataType="{x:Type tree:EditableNode}">
-                            <TextBox BorderBrush="{x:Null}"
-                                     IsReadOnly="True"
-                                     Text="{Binding Value}" />
+                            <TextBox BorderBrush="{x:Null}" Text="{Binding Value}" />
                         </DataTemplate>
                     </demo:ValueTemplateSelector.StringTemplate>
+                    <demo:ValueTemplateSelector.ListTemplate>
+                        <DataTemplate DataType="{x:Type tree:EditableNode}" />
+                    </demo:ValueTemplateSelector.ListTemplate>
+                    <demo:ValueTemplateSelector.ItemNodeTemplate>
+                        <DataTemplate DataType="{x:Type tree:EditableNode}">
+                            <TextBlock Text="Content:" />
+                        </DataTemplate>
+                    </demo:ValueTemplateSelector.ItemNodeTemplate>
                 </demo:ValueTemplateSelector>
 
                 <HierarchicalDataTemplate DataType="{x:Type tree:RootNode}" ItemsSource="{Binding Nodes}">
-                    <TextBlock Text="{Binding Path=Value}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Text="R  " />
+                        <TextBlock Text="{Binding Path=Value}" />
+                    </StackPanel>
+
                 </HierarchicalDataTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type tree:ItemsNode}" ItemsSource="{Binding Nodes}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"
+                        <TextBlock VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Text="I  " />
+
+                        <!--<TextBlock Grid.Column="1"
                                    VerticalAlignment="Center"
                                    Text="{Binding Value,
                                                   Mode=OneWay,
-                                                  StringFormat='{}{0}:'}" />
+                                                  StringFormat='{}{0}:'}" />-->
 
-                        <ContentPresenter Grid.Column="1"
+                        <ContentPresenter Grid.Column="2"
                                           Content="{Binding}"
                                           ContentTemplateSelector="{StaticResource ValueTemplateSelector}" />
                     </Grid>
@@ -75,15 +101,19 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"
+                        <TextBlock VerticalAlignment="Center"
+                                   FontWeight="Bold"
+                                   Text="P  " />
+                        <TextBlock Grid.Column="1"
                                    VerticalAlignment="Center"
                                    Text="{Binding ParentProperty.Name,
                                                   Mode=OneWay,
-                                                  StringFormat='{}{0}:'}" />
+                                                  StringFormat='{}{0}: '}" />
 
-                        <ContentPresenter Grid.Column="1"
+                        <ContentPresenter Grid.Column="2"
                                           Content="{Binding}"
                                           ContentTemplateSelector="{StaticResource ValueTemplateSelector}" />
                     </Grid>

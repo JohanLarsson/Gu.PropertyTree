@@ -9,10 +9,9 @@
 
         public MainWindowViewModel()
         {
-
             var dummy1 = new Dummy { Name = "Max", Value = 24 };
             var dummy2 = new Dummy { Name = "Johan", Value = 23 };
-            var dummy3 = new Dummy { Name = "Max", Value = 24 };
+            var dummy3 = new Dummy { Name = "Urban", Value = 24 };
             dummy1.Dummies = new List<Dummy>() { dummy2, dummy3 };
             var l = new List<Dummy>() { dummy1,dummy2 };
           

@@ -1,5 +1,6 @@
 ﻿namespace Gu.PropertyTree
 {
+    using System;
     using System.Collections.Generic;
     using System.Reflection;
 
@@ -18,7 +19,8 @@
             }
             set
             {
-                ParentProperty.SetValue(Parent, value);
+                var typedValue = Convert.ChangeType(value, ParentProperty.PropertyType);
+                ParentProperty.SetValue(Parent, typedValue);
             }
         }
     }

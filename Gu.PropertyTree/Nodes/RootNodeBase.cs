@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
+    using System.Reflection;
 
     public class RootNodeBase : INode
     {
@@ -18,7 +19,7 @@
             _nodes = new ReadOnlyObservableCollection<INode>(_innerNodes);
             HasEditableSubNodes = Nodes.OfType<EditableNode>()
                                        .Any();
-
+  
 
         }
 
@@ -37,6 +38,8 @@
         public object Value { get; private set; }
 
         public ReadOnlyObservableCollection<INode> Nodes { get { return _nodes; } }
+
+
 
         public bool HasEditableSubNodes { get; private set; }
 

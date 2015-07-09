@@ -1,5 +1,6 @@
 ﻿namespace Gu.PropertyTree.Tests
 {
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
@@ -63,6 +64,7 @@
                 OnPropertyChanged();
             }
         }
+        public List<Dummy> Dummies { get;  set; }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

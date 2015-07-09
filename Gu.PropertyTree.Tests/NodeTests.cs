@@ -1,8 +1,11 @@
 ﻿namespace Gu.PropertyTree.Tests
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Windows;
 
     using NUnit.Framework;
 
@@ -14,7 +17,7 @@
             var instance = new Dummy();
             var node = Node.Create(instance);
             Assert.AreSame(instance, node.Value);
-            Assert.AreEqual(3, node.Nodes.Count);
+            Assert.AreEqual(4, node.Nodes.Count);
         }
 
         [Test]
@@ -38,11 +41,11 @@
             var instance = new Dummy { Next = new Dummy() };
             var node = Node.Create(instance);
             Assert.AreSame(instance, node.Value);
-            Assert.AreEqual(3, node.Nodes.Count);
+            Assert.AreEqual(4, node.Nodes.Count);
 
             var nextNode = node.Nodes.OfType<IPropertyNode>().Single(x => x.ParentProperty.Name == "Next");
             Assert.AreSame(instance.Next, nextNode.Value);
-            Assert.AreEqual(3, nextNode.Nodes.Count);
+            Assert.AreEqual(4, nextNode.Nodes.Count);
         }
 
         [Test]
@@ -51,12 +54,12 @@
             var instance = new Dummy();
             var node = Node.Create(instance);
             Assert.AreSame(instance, node.Value);
-            Assert.AreEqual(3, node.Nodes.Count);
+            Assert.AreEqual(4, node.Nodes.Count);
 
             instance.Next = new Dummy();
             var nextNode = node.Nodes.OfType<IPropertyNode>().Single(x => x.ParentProperty.Name == "Next");
             Assert.AreSame(instance.Next, nextNode.Value);
-            Assert.AreEqual(3, nextNode.Nodes.Count);
+            Assert.AreEqual(4, nextNode.Nodes.Count);
         }
 
         [Test]
@@ -70,5 +73,54 @@
                                     .Single();
             Assert.AreSame(instance, itemNode.Nodes.Single().Value);
         }
+
+        [Test]
+        public void CollectionChangeTest()
+        {
+            var l = new ObservableCollection<Dummy>();
+            var node = Node.Create(l);
+            l.Add(new Dummy { Value = 1, Name = "Max" });
+            var itemNode = node.Nodes.OfType<ItemsNode>()
+                                         .Single();
+
+            var enumerable = itemNode.Value as IEnumerable;
+            Assert.AreEqual(1, enumerable.OfType<Dummy>().Count());
+        }
+
+        [Test]
+        public void CollectionWithinClassChangedTest()
+        {
+            var l = new List<Dummy>() { new Dummy { Value = 1, Name = "Max" } };
+            var dummie = new Dummy { Value = 2, Name = "Kalle" };
+            var node = Node.Create(dummie);
+            var element = node.Nodes.OfType<IPropertyNode>().Single(x => x.ParentProperty.Name == "Dummies");
+            Assert.AreEqual(null, element.Value);
+            dummie.Dummies = l;
+            Assert.AreNotEqual(null, element.Value);
+        }
+
+        [Test]
+        public void TimeStampTest()
+        {
+
+            var dummy = new TimeSpanDummy() { DateTime = new DateTime() };
+            var node = Node.Create(dummy);
+
+        }
+
+        [Test]
+        public void ArrayTest()
+        {
+            var arr = new[] { 1, 2 };
+            var node = Node.Create(arr);
+
+        }
+    }
+
+    public class TimeSpanDummy
+    {
+        public DateTime DateTime { get; set; }
+
+
     }
 }

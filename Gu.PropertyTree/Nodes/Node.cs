@@ -20,14 +20,19 @@
                 yield break;
             }
             var enumerable = value as IEnumerable;
-            if (enumerable != null && (enumerable is string)==false)
+            if (enumerable != null && (enumerable is string) == false)
             {
                 yield return new ItemsNode(enumerable);
+                yield break;
             }
             var properties = value.GetType()
                                   .GetProperties();
             foreach (var property in properties)
             {
+                if (property.PropertyType == value.GetType())
+                {
+                    continue;
+                }
                 if (property.GetIndexParameters()
                             .Any())
                 {
