@@ -42,7 +42,7 @@
             var node = Node.Create(instance);
             Assert.AreSame(instance, node.Value);
             Assert.AreEqual(4, node.Nodes.Count);
-
+         
             var nextNode = node.Nodes.OfType<IPropertyNode>().Single(x => x.ParentProperty.Name == "Next");
             Assert.AreSame(instance.Next, nextNode.Value);
             Assert.AreEqual(4, nextNode.Nodes.Count);

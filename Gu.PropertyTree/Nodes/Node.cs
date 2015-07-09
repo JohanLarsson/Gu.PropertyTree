@@ -29,7 +29,7 @@
                                   .GetProperties();
             foreach (var property in properties)
             {
-                if (property.PropertyType == value.GetType())
+                if (property.PropertyType == value.GetType() && property.PropertyType.IsValueType)
                 {
                     continue;
                 }
@@ -44,7 +44,7 @@
                     yield return new EditableNode(value, property);
                 }
 
-                else if(property.CanRead)
+                else if (property.CanRead)
                 {
                     yield return new ReadOnlyNode(value, property);
                 }
